@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="fuckboi_sheet.png"><SubTexture name="fuckboi idle0000" x="0" y="0" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" />
+<SubTexture name="fuckboi idle0001" x="584" y="0" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi idle0002" x="584" y="0" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi idle0003" x="1168" y="0" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi idle0004" x="1752" y="0" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi idle0005" x="0" y="836" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--3-->
+<SubTexture name="fuckboi idle0006" x="584" y="836" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--4-->
+<SubTexture name="fuckboi idle0007" x="584" y="836" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--4-->
+<SubTexture name="fuckboi idle0008" x="1168" y="836" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--5-->
+<SubTexture name="fuckboi idle0009" x="1752" y="836" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--6-->
+
+<SubTexture name="fuckboi singRIGHT0000" x="0" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi singRIGHT0001" x="0" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi singRIGHT0002" x="584" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi singRIGHT0003" x="584" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi singRIGHT0004" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singRIGHT0005" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singRIGHT0006" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singRIGHT0007" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singRIGHT0008" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singRIGHT0009" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singRIGHT0010" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singRIGHT0011" x="1168" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+
+<SubTexture name="fuckboi singDOWN0000" x="1752" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi singDOWN0001" x="1752" y="1672" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi singDOWN0002" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0003" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0004" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0005" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0006" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0007" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0008" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0009" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0010" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0011" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0012" x="584" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singDOWN0013" x="0" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /> <!--1-->
+<SubTexture name="fuckboi singDOWN0014" x="0" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /> <!--1-->
+
+<SubTexture name="fuckboi singUP0000" x="1168" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi singUP0001" x="1752" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi singUP0002" x="1752" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi singUP0003" x="0" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singUP0004" x="0" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singUP0005" x="0" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singUP0006" x="0" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singUP0007" x="0" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singUP0008" x="0" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singUP0009" x="0" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singUP0010" x="1752" y="2508" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+
+<SubTexture name="fuckboi singLEFT0000" x="584" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi singLEFT0001" x="584" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi singLEFT0002" x="1168" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi singLEFT0003" x="1168" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi singLEFT0004" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singLEFT0005" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singLEFT0006" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singLEFT0007" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singLEFT0008" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singLEFT0009" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singLEFT0010" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+<SubTexture name="fuckboi singLEFT0011" x="1752" y="3344" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--2-->
+
+<SubTexture name="fuckboi hey0000" x="0" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi hey0001" x="0" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+<SubTexture name="fuckboi hey0002" x="584" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi hey0003" x="584" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi hey0004" x="584" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi hey0005" x="584" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi hey0006" x="584" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi hey0007" x="584" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi hey0008" x="584" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--1-->
+<SubTexture name="fuckboi hey0009" x="0" y="4180" width="584" height="836" frameX="0" frameY="0" frameWidth="584" frameHeight="836" /><!--0-->
+</TextureAtlas>
