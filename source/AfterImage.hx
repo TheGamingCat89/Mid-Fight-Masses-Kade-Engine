@@ -5,7 +5,6 @@ package;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
-import flixel.util.FlxColor; //not sure if imgoing to use this lol
 
 class AfterImage extends FlxSprite {
   public function new(character:Character){
@@ -13,7 +12,6 @@ class AfterImage extends FlxSprite {
 
     frames = character.frames;
     var curAnim = character.animation.curAnim;
-    //var iconColor:String = PlayState.dad.iconColor;
     alpha = .5;
     setGraphicSize(Std.int(character.width),Std.int(character.height));
     scrollFactor.set(character.scrollFactor.x,character.scrollFactor.y);
@@ -27,7 +25,6 @@ class AfterImage extends FlxSprite {
     y = character.y + FlxG.random.int(-30, 50);
     offset.x = character.offset.x;
     offset.y = character.offset.y;
-    //color = FlxColor.fromString('#' + iconColor);
     antialiasing = true;
     switch(character.curCharacter)
     {

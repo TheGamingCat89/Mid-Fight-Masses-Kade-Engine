@@ -200,6 +200,7 @@ class PlayState extends MusicBeatState
 	public var isSMFile:Bool = false;
 
 	var notesHitArray:Array<Date> = [];
+	var cpuNotesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
 	var idleToBeat:Bool = true; // change if bf and dad would idle to the beat of the song
 	var idleBeat:Int = 2; // how frequently bf and dad would play their idle animation(1 - every beat, 2 - every 2 beats and so on)
@@ -444,7 +445,7 @@ class PlayState extends MusicBeatState
 			if(afterimages == null){
 				trace("GRABBIN AFTER IMAGES");
 				afterimages = AfterImages.loadFromJson(SONG.song.toLowerCase() + difficulty ,SONG.song.toLowerCase());
-			}
+			}   //tbh this above is useless too lol,
 		}
 		catch(e){
 			afterimages = null;
@@ -1251,7 +1252,6 @@ class PlayState extends MusicBeatState
 				gf.x -= 50;
 				dad.x -= 100;
 				boyfriend.x += 100;
-				boyfriend.y -= 100;
 			case 'church1-dark':
 				gf.y -= 195;
 				gf.x -= 50;
@@ -2696,6 +2696,7 @@ class PlayState extends MusicBeatState
 	var canPause:Bool = true;
 	var nps:Int = 0;
 	var maxNPS:Int = 0;
+	var cpuNps:Int = 0;
 
 	public static var songRate = 1.5;
 
@@ -2951,8 +2952,6 @@ class PlayState extends MusicBeatState
 			}
 			#end
 		}
-
-		
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
@@ -3622,8 +3621,8 @@ class PlayState extends MusicBeatState
 							if (SONG.needsVoices)
 								vocals.volume = 1;
 					}
- 
-					//this shit doesnt work i have no fucking idea why lmao
+
+					//this shit sometimes work but not all the time lol
                     switch (Math.abs(daNote.noteData))
 					{
 						case 2:
@@ -3639,24 +3638,25 @@ class PlayState extends MusicBeatState
 					//THANKS TO BRN101#1823 FOR THIS PART OF THE CODE!! (now made a shit ton shorter)
 					if(dad.curCharacter == 'ruv'){
 						gf.playAnim('scared', true);
-						FlxG.camera.shake(0.01, 0.05);}
+						FlxG.camera.shake(0.01, 0.05);
+					    camHUD.shake(0.001, 0.05);}
 
-					//oh yeah this can work with sarv-engine's crossfade option too lol
-				/*if(!PlayStateChangeables.crossFadeOpt){
-					if (afterimages!=null){
-						if(afterimages.notes[curSection]!=null){ // notes[curSection]
-							if(afterimages.notes[curSection].crossFade){ // notes[curSection]      
-								var afterImage = new AfterImage(dad);
-								afterImage.y += FlxG.random.int(-25,25);                     //disabled until idfk
-								afterImage.x += FlxG.random.float(-15,15)+15;
-								afterImage.velocity.x = FlxG.random.float(-25,25)*6;
-								afterImage.acceleration.x = -afterImage.velocity.x/1.5;
-								afterImageSprites.add(afterImage);
-								trace("section contains crossfade");
-							}
-						}
-					}
-				}*/
+				    /*changed this to work based on notes per second!
+					mainly because crossfade on the charter doesnt work properly for no fucking reason
+					also the isSusNote makes it activate on hold notes ignoring the nps*/
+				    if(!PlayStateChangeables.crossFadeOpt){
+				    	if(cpuNps >= 7 || daNote.isSustainNote){  
+				    	    var afterImage = new AfterImage(dad);
+				    	    afterImage.y += FlxG.random.int(-25,25);
+				    	    afterImage.x += FlxG.random.float(-15,15)+15;
+				    	    afterImage.velocity.x = FlxG.random.float(-25,25)*6;
+				    	    afterImage.acceleration.x = -afterImage.velocity.x/1.5;
+				    	    afterImageSprites.add(afterImage);
+				    	}								
+				    }
+
+					cpuNps++;
+					new FlxTimer().start(1, function(tmr:FlxTimer){cpuNps-=1;});
 					
 					if(curStage.startsWith('church3')){
 						circ1.angle -= 5;
@@ -4030,7 +4030,7 @@ class PlayState extends MusicBeatState
 					prevCamFollow = camFollow;
 
 					PlayState.SONG = Song.loadFromJson(poop, PlayState.storyPlaylist[0]);
-					PlayState.afterimages = AfterImages.loadFromJson(poop, PlayState.storyPlaylist[0]); //.toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
+					//PlayState.afterimages = AfterImages.loadFromJson(poop, PlayState.storyPlaylist[0]); //fucking useless
 					FlxG.sound.music.stop();
 
 					LoadingState.loadAndSwitchState(new PlayState());
@@ -4957,21 +4957,17 @@ class PlayState extends MusicBeatState
 				circ1.angle += 5;
 				circ2.angle += 5;}
 
-			/*if(!PlayStateChangeables.crossFadeOpt){
-				if(afterimages!=null){
-					if(afterimages.notes[curSection]!=null){ // notes[note.section]
-						if(afterimages.notes[curSection].crossFade){ // notes[note.section]
-							var afterImage = new AfterImage(boyfriend);
-							afterImage.y += FlxG.random.int(-25,25);
-							afterImage.x -= 15;
-							afterImage.velocity.x = FlxG.random.float(-25,25)*6;
-							afterImage.acceleration.x = -afterImage.velocity.x/1.5;
-							afterImageSprites.add(afterImage);
-							trace("section contains crossfade");
-							}
-						}
-					}
-			}*/
+			//this shit based on nps lol
+			if(!PlayStateChangeables.crossFadeOpt){
+				if(nps >= 7 || note.isSustainNote){
+					var afterImage = new AfterImage(boyfriend);
+					afterImage.y += FlxG.random.int(-25,25);
+					afterImage.x -= 15;
+					afterImage.velocity.x = FlxG.random.float(-25,25)*6;
+					afterImage.acceleration.x = -afterImage.velocity.x/1.5;
+					afterImageSprites.add(afterImage);
+				}
+			}
 
 			if (note.noteType == 'unholy'){
 				health -= 0.3;

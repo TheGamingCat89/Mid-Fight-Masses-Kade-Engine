@@ -106,8 +106,6 @@ class ChartingState extends MusicBeatState
 
 	public static var _song:SwagSong;
 
-	var _crossFade:CrossFades;
-
 	var typingShit:FlxInputText;
 	/*
 	 * WILL BE THE CURRENT / LAST PLACED NOTE
@@ -166,10 +164,8 @@ class ChartingState extends MusicBeatState
 		
 		TimingStruct.clearTimings();
 
-		if (PlayState.SONG != null){
+		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
-			//_crossFade = PlayState.afterimages;
-		}
 		else
 		{
 			_song = {
@@ -188,13 +184,6 @@ class ChartingState extends MusicBeatState
 				validScore: false
 			};
 		}
-
-		/*if (_crossFade == null){
-			_crossFade = {
-				song: 'Test',
-				notes: []
-			};
-		}*/
 
 		addGrid(1);
 
@@ -220,7 +209,6 @@ class ChartingState extends MusicBeatState
 		tempBpm = _song.bpm;
 
 		addSection();
-		//addCrossfadeSection();
 
 		// sections = _song.notes;
 
@@ -317,8 +305,6 @@ class ChartingState extends MusicBeatState
 			var renderer = new SectionRender(0,640 * awfgaw,GRID_SIZE);
 			if (_song.notes[awfgaw] == null)
 				_song.notes.push(newSection(16,true,false,false));
-			/*if (_crossFade.notes[awfgaw] == null)
-				_crossFade.notes.push(newCrossfadeSection(16,true,false,false));*/
 			renderer.section = _song.notes[awfgaw];
 
 			sectionRenderes.add(renderer);
@@ -1204,7 +1190,6 @@ class ChartingState extends MusicBeatState
 	var stepperSectionBPM:FlxUINumericStepper;
 	var check_p1AltAnim:FlxUICheckBox;
 	var check_p2AltAnim:FlxUICheckBox;
-	var check_crossFade:FlxUICheckBox;
 
 	function addSectionUI():Void
 	{
@@ -1294,12 +1279,8 @@ class ChartingState extends MusicBeatState
 		check_p2AltAnim = new FlxUICheckBox(200, 340, null, null, "P2 Alternate Animation", 100);
 		check_p2AltAnim.name = 'check_p2AltAnim';
 
-		/*check_crossFade = new FlxUICheckBox(200, 320, null, null, "CrossFade", 100);
-		check_crossFade.name = 'check_crossFade';*/
-
 		var refresh = new FlxButton(10, 60, 'Refresh Section', function() {
 			var section = getSectionByTime(Conductor.songPosition);
-			//var crossSection = getCrossSectionByTime(Conductor.songPosition); //gotta fix this shit
 
 			if (section == null)
 				return;
@@ -1307,7 +1288,6 @@ class ChartingState extends MusicBeatState
 			check_mustHitSection.checked = section.mustHitSection;
 			check_p1AltAnim.checked = section.p1AltAnim;
 			check_p2AltAnim.checked = section.p2AltAnim;
-			//check_crossFade.checked = crossSection.crossFade;
 		});
 
 		var startSection:FlxButton = new FlxButton(10, 85, "Play Here", function() {
@@ -1329,7 +1309,6 @@ class ChartingState extends MusicBeatState
 		//tab_group_section.add(copyButton);
 		tab_group_section.add(clearSectionButton);
 		tab_group_section.add(swapSection);
-	    //tab_group_section.add(check_crossFade);
 
 		UI_box.addGroup(tab_group_section);
 	}
@@ -1547,8 +1526,6 @@ class ChartingState extends MusicBeatState
 					getSectionByTime(Conductor.songPosition).p1AltAnim = check.checked;
 				case "P2 Alternate Animation":
 					getSectionByTime(Conductor.songPosition).p2AltAnim = check.checked;
-				/*case "CrossFade":
-					getCrossSectionByTime(Conductor.songPosition).crossFade = check.checked;*/
 			}
 		}
 		else if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
@@ -2106,7 +2083,6 @@ class ChartingState extends MusicBeatState
 
 		
 		var weird = getSectionByTime(start, true);
-		//var the = getCrossSectionByTime(start, true); // gotta add this too lol!
 
 		FlxG.watch.addQuick("Section",weird);
 
@@ -2118,7 +2094,6 @@ class ChartingState extends MusicBeatState
 				check_mustHitSection.checked = weird.mustHitSection;
 				check_p1AltAnim.checked = weird.p1AltAnim;
 				check_p2AltAnim.checked = weird.p2AltAnim;
-				//check_crossFade.checked = the.crossFade;
 			}
 		}
 
@@ -2316,7 +2291,6 @@ class ChartingState extends MusicBeatState
 			lastSection = curSection;
 
 			PlayState.SONG = _song;
-			PlayState.afterimages = _crossFade;
 			FlxG.sound.music.stop();
 			if (!PlayState.isSM)
 			vocals.stop();
@@ -2541,21 +2515,9 @@ class ChartingState extends MusicBeatState
 			updateSectionUI();
 	}
 
-	function changeSection(sec:Int = 0, crossSec:Int = 0, ?updateMusic:Bool = true):Void
+	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
 	{
-		trace('changing section' + sec /*+ 'crossfade: ' + crossSec*/);
-
-		if(_song.notes[sec]==null){
-			for(i in curSection...sec){
-				addSection();
-			}
-		}
-
-        /*if(_crossFade.notes[crossSec]==null){
-			for(i in curSection...crossSec){
-				addCrossfadeSection();
-			}
-		}*/
+		trace('changing section' + sec);
 
 		if (_song.notes[sec] != null)
 		{
@@ -2613,21 +2575,18 @@ class ChartingState extends MusicBeatState
 	function updateSectionUI():Void
 	{
 		var sec = getSectionByTime(Conductor.songPosition);
-		//var fadeSec = getCrossSectionByTime(Conductor.songPosition);
 
 		if (sec == null)
 		{
 			check_mustHitSection.checked = true;
 			check_p1AltAnim.checked = false;
 			check_p2AltAnim.checked = false;
-			//check_crossFade.checked = false;
 		}
 		else
 		{
 			check_mustHitSection.checked = sec.mustHitSection;
 			check_p1AltAnim.checked = sec.p1AltAnim;
 			check_p2AltAnim.checked = sec.p2AltAnim;
-			//check_crossFade.checked = fadeSec.crossFade;
 		}
 	}
 
@@ -2762,38 +2721,7 @@ class ChartingState extends MusicBeatState
 		};
 
 		_song.notes.push(sec);
-		//addCrossfadeSection();
 	}
-
-	/*private function addCrossfadeSection():Void
-		{
-			var daPos:Float = 0; //shit
-			var start:Float = 0;
-
-			// tbh i have no fucking idea what this does
-			var bpm = _song.bpm;
-		    for (i in 0...curSection)
-		    {
-		    	for(ii in TimingStruct.AllTimings)
-		    		{
-		    			var data = TimingStruct.getTimingAtTimestamp(start);
-		    			if ((data != null ? data.bpm : _song.bpm) != bpm && bpm != ii.bpm)
-		    				bpm = ii.bpm;
-		    		}
-		    	start += (4 * (60 / bpm)) * 1000;
-		    }
-
-			var crossSec:AfterImageSection = {
-				startTime: daPos,
-			    endTime: Math.POSITIVE_INFINITY,
-				sectionNotes: [],
-				bpm: _song.bpm,
-				crossFade: false,
-				altAnim: false,
-				mustHitSection: false	
-			};
-			_crossFade.notes.push(crossSec);
-		}*/
 
 	function selectNote(note:Note, ?deleteAllBoxes:Bool = true):Void
 	{
@@ -2886,7 +2814,6 @@ class ChartingState extends MusicBeatState
 	function clearSection():Void
 	{
 		getSectionByTime(Conductor.songPosition).sectionNotes = [];
-		//getCrossSectionByTime(Conductor.songPosition).sectionNotes = []; //maybe this will work??
 
 		updateGrid();
 	}
@@ -2896,13 +2823,12 @@ class ChartingState extends MusicBeatState
 		for (daSection in 0..._song.notes.length)
 		{
 			_song.notes[daSection].sectionNotes = [];
-			//_crossFade.notes[daSection].sectionNotes = _song.notes[daSection].sectionNotes;
 		}
 
 		updateGrid();
 	}
 
-	private function newSection(lengthInSteps:Int = 16,mustHitSection:Bool = false,p1AltAnim:Bool = true, p2AltAnim:Bool = true/*, crossFade:Bool = false*/):SwagSection
+	private function newSection(lengthInSteps:Int = 16,mustHitSection:Bool = false,p1AltAnim:Bool = true, p2AltAnim:Bool = true):SwagSection
 		{
 
 			var daPos:Float = 0;
@@ -2934,42 +2860,9 @@ class ChartingState extends MusicBeatState
 				p1AltAnim: p1AltAnim,
 				p2AltAnim: p2AltAnim
 			};
-			//newCrossfadeSection();
 
 			return sec;
 		}
-
-		/*private function newCrossfadeSection(lengthInSteps:Int = 16,mustHitSection:Bool = false,altAnim:Bool = true, crossFade:Bool = true):AfterImageSection
-			{
-	
-				var daPos:Float = 0;
-						
-				var currentSeg = TimingStruct.AllTimings[TimingStruct.AllTimings.length - 1];
-	
-				var currentBeat = 4;
-	
-				for(i in _song.notes)
-					currentBeat += 4;
-	
-				if (currentSeg == null)
-					return null;
-	
-				var start:Float = (currentBeat - currentSeg.startBeat) / (currentSeg.bpm / 60);
-	
-				daPos = (currentSeg.startTime + start) * 1000;
-	
-				var crossSec:AfterImageSection = {
-					startTime: daPos,
-					endTime: Math.POSITIVE_INFINITY,
-					sectionNotes: [],
-					bpm: _song.bpm,
-					crossFade: false,
-					altAnim: false,
-					mustHitSection: false	
-				};
-	
-				return crossSec;
-			}*/
 
 	function recalculateAllSectionTimes()
 	{
@@ -3025,7 +2918,6 @@ class ChartingState extends MusicBeatState
 	function shiftNotes(measure:Int=0,step:Int=0,ms:Int = 0):Void
 		{
 			var newSong = [];
-            var crossSong = [];
 			
 			var millisecadd = (((measure*4)+step/4)*(60000/currentBPM))+ms;
 			var totaladdsection = Std.int((millisecadd/(60000/currentBPM)/4));
@@ -3041,18 +2933,6 @@ class ChartingState extends MusicBeatState
 				{
 					newSong.push(newSection(16,_song.notes[daSection1].mustHitSection,_song.notes[daSection1].p1AltAnim,_song.notes[daSection1].p2AltAnim));
 				}
-
-			/*if(millisecadd > 0)
-				{
-					for(i in 0...totaladdsection)
-						{
-							crossSong.unshift(newCrossfadeSection());
-						}
-				}
-			for (daSection2 in 0..._song.notes.length)
-				{
-					crossSong.push(newCrossfadeSection(16,_crossFade.notes[daSection2].mustHitSection,_crossFade.notes[daSection2].altAnim));
-				}*/
 	
 			for (daSection in 0...(_song.notes.length))
 			{
@@ -3061,7 +2941,6 @@ class ChartingState extends MusicBeatState
 				newSong[aimtosetsection].mustHitSection = _song.notes[daSection].mustHitSection;
 				newSong[aimtosetsection].p1AltAnim = _song.notes[daSection].p1AltAnim;
 				newSong[aimtosetsection].p2AltAnim = _song.notes[daSection].p2AltAnim;
-				crossSong[aimtosetsection].crossFade = _crossFade.notes[daSection].crossFade;
 				//trace("section "+daSection);
 				for(daNote in 0...(_song.notes[daSection].sectionNotes.length))
 					{	
@@ -3105,24 +2984,6 @@ class ChartingState extends MusicBeatState
 
 	}
 
-	/*public function getCrossSectionByTime(ms:Float, ?changeCurSectionIndex:Bool = false):AfterImageSection
-		{
-			var index = 0;
-
-			for (i in _crossFade.notes)
-				{
-					if (ms >= i.startTime && ms < i.endTime)
-					{
-						if (changeCurSectionIndex)
-							curSection = index;
-						return i;
-					}
-					index++;
-				}
-	
-			return null;
-		}*/
-
 	public function getNoteByTime(ms:Float)
 	{
 		for(i in _song.notes)
@@ -3162,8 +3023,6 @@ class ChartingState extends MusicBeatState
 		var thingy = section.sectionNotes[section.sectionNotes.length - 1];
 
 		curSelectedNote = thingy;
-
-		//_crossFade.notes[curSection].sectionNotes = _song.notes[curSection].sectionNotes;
 
 		var seg = TimingStruct.getTimingAtTimestamp(noteStrum);
 
@@ -3307,8 +3166,7 @@ class ChartingState extends MusicBeatState
 	function autosaveSong():Void
 	{
 		FlxG.save.data.autosave = Json.stringify({
-			"song": _song,
-			//"crossFade": _crossFade
+			"song": _song
 		});
 		FlxG.save.flush();
 	}
@@ -3317,8 +3175,7 @@ class ChartingState extends MusicBeatState
 	{
 		var difficultyArray:Array<String> = ["-easy", "", "-hard", "-alt"];
 		var json = {
-			"song": _song,
-			//"crossFade": _crossFade
+			"song": _song
 		};
 
 		var data:String = Json.stringify(json,null," ");
