@@ -13,15 +13,12 @@ typedef SwagSection =
 	var altAnim:Bool;
 	var p1AltAnim:Bool;
 	var p2AltAnim:Bool;
+	var crossFade:Bool;
 }
 
 class Section
 {
-	public var startTime:Float = 0;
-	public var endTime:Float = 0;
-	public var sectionNotes:Array<Array<Dynamic>> = [];
-	public var changeBPM:Bool = false;
-	public var bpm:Float = 0;
+	public var sectionNotes:Array<Dynamic> = [];
 
 	public var lengthInSteps:Int = 16;
 	public var typeOfSection:Int = 0;
@@ -37,3 +34,4 @@ class Section
 		this.lengthInSteps = lengthInSteps;
 	}
 }
+

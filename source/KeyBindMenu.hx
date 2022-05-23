@@ -103,7 +103,7 @@ class KeyBindMenu extends FlxSubState
         FlxTween.tween(infoText, {alpha: 1}, 1.4, {ease: FlxEase.expoInOut});
         FlxTween.tween(blackBox, {alpha: 0.7}, 1, {ease: FlxEase.expoInOut});
 
-        OptionsMenu.instance.acceptInput = false;
+        //OptionsMenu.instance.acceptInput = false;
 
         textUpdate();
 
@@ -309,7 +309,7 @@ class KeyBindMenu extends FlxSubState
 
         save();
 
-        OptionsMenu.instance.acceptInput = true;
+        //OptionsMenu.instance.acceptInput = true;
 
         FlxTween.tween(keyTextDisplay, {alpha: 0}, 1, {ease: FlxEase.expoInOut});
         FlxTween.tween(blackBox, {alpha: 0}, 1.1, {ease: FlxEase.expoInOut, onComplete: function(flx:FlxTween){close();}});

@@ -217,7 +217,10 @@ class ResultsScreen extends FlxSubState
                 FlxG.switchState(new MainMenuState());
             }
             else
+            {
                 FlxG.switchState(new FreeplayState());
+                FreeplayState.isWeek = false;
+            }
             PlayState.instance.clean();
         }
 

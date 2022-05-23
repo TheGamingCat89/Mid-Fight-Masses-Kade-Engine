@@ -1,9 +1,15 @@
+//ok if you want to see how to add your own character go to line 115
+
 package;
 
+import lime.tools.Platform;
+import flixel.animation.FlxAnimation;
+import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
+#if sys import sys.FileSystem; #end
 
 using StringTools;
 
@@ -11,6 +17,7 @@ class Character extends FlxSprite
 {
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
+	public static var prevAnim:FlxAnimation;
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
@@ -18,6 +25,12 @@ class Character extends FlxSprite
 	public var holdTimer:Float = 0;
 
 	public var iconColor:String = "FFAAAAAA";
+
+	public var stunned:Bool = false;
+
+	public var holding:Bool = false;
+
+	var tex:FlxAtlasFrames;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -27,7 +40,6 @@ class Character extends FlxSprite
 		curCharacter = character;
 		this.isPlayer = isPlayer;
 
-		var tex:FlxAtlasFrames;
 		antialiasing = FlxG.save.data.antialiasing;
 
 		switch (curCharacter)
@@ -52,8 +64,6 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
-				iconColor = 'FFa5004d';
-
 			case 'gf-christmas':
 				tex = Paths.getSparrowAtlas('gfChristmas','shared',true);
 				frames = tex;
@@ -72,9 +82,7 @@ class Character extends FlxSprite
 				loadOffsetFile(curCharacter);
 
 				playAnim('danceRight');
-
-				iconColor = 'FFa5004d';
-
+				
 			case 'gf-car':
 				tex = Paths.getSparrowAtlas('gfCar','shared',true);
 				frames = tex;
@@ -85,9 +93,7 @@ class Character extends FlxSprite
 
 				loadOffsetFile(curCharacter);
 
-				playAnim('danceRight');
-
-				iconColor = 'FFa5004d';
+				playAnim('danceRight');				
 
 			case 'gf-pixel':
 				tex = Paths.getSparrowAtlas('gfPixel','shared',true);
@@ -102,10 +108,38 @@ class Character extends FlxSprite
 
 				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 				updateHitbox();
-				antialiasing = false;
+				antialiasing = false;				
+			
+			//basically just replace the stuff i just gave you the template AND ALSO REMOVE THE COMMENTS I MADE IF YOU COPY IT DONT BE STUPID
+											
+			/*							put the folder where your character files is
+			case 'YOUR CHARACTER NAME':		    ^
+				tex = Paths.getSparrowAtlas('folder/file)','put 'shared' if you put it inside shared/images/characters',true);
+				frames = tex;
+				animation.addByPrefix('idle', 'Dad idle dance', 24, false);
+				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
+				animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
+				animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false); <-- 24 is the frames, just keep it 24 or whatever your animation frames are
+										^				^ ^ ^ ^							the false means if the animation is looped, put it in its very important too
+										^				^ ^ ^ ^
+										^		THIS HAS TO BE YOUR ANIMATION NAME INSIDE THE XML WITHOUT THE NUMBERS (0000,0001,0002, ETC.)
+										^
+				this is just for the animation name, dont change it
 
-				iconColor = 'FFa5004d';
+				loadOffsetFile(curCharacter); <-- offset file if you have one 
+				(or you can set offsets manually like this below)
+				addOffset('idle');
+				addOffset("singUP", num, num);
+				addOffset("singRIGHT", num, num); <-- TO GET THE NUMBERS GO TO ANIMATION DEBUG MENU
+				addOffset("singLEFT", num, num);		BY PRESSING 6 IN DEBUG MODE INSIDE FREEPLAY
+				addOffset("singDOWN", num, num);		AND CHANGE THE VALUES UNTIL THE CHARACTER IS 
+														CENTERED OR WHATEVER, IM BAD AT EXPLAINING THAT
 
+				playAnim('idle'); //dont change this
+
+				*/
+			
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('DADDY_DEAREST','shared',true);
@@ -120,7 +154,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				iconColor = 'FFaf66ce';
+				
 			case 'spooky':
 				tex = Paths.getSparrowAtlas('spooky_kids_assets','shared',true);
 				frames = tex;
@@ -135,7 +169,7 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
-				iconColor = 'FFd57e00';
+				
 			case 'mom':
 				tex = Paths.getSparrowAtlas('Mom_Assets','shared',true);
 				frames = tex;
@@ -151,8 +185,7 @@ class Character extends FlxSprite
 				loadOffsetFile(curCharacter);
 
 				playAnim('idle');
-
-                iconColor = 'FFd8558e';
+                
 			case 'mom-car':
 				tex = Paths.getSparrowAtlas('momCar','shared',true);
 				frames = tex;
@@ -168,8 +201,7 @@ class Character extends FlxSprite
 				loadOffsetFile(curCharacter);
 
 				playAnim('idle');
-
-				iconColor = 'FFd8558e';
+				
 			case 'monster':
 				tex = Paths.getSparrowAtlas('Monster_Assets','shared',true);
 				frames = tex;
@@ -181,7 +213,7 @@ class Character extends FlxSprite
 
 				loadOffsetFile(curCharacter);
 				playAnim('idle');
-				iconColor = 'FFf3ff6e';
+				
 			case 'monster-christmas':
 				tex = Paths.getSparrowAtlas('monsterChristmas','shared',true);
 				frames = tex;
@@ -193,7 +225,7 @@ class Character extends FlxSprite
 
 				loadOffsetFile(curCharacter);
 				playAnim('idle');
-				iconColor = 'FFf3ff6e';
+				
 			case 'pico':
 				tex = Paths.getSparrowAtlas('Pico_FNF_assetss','shared',true);
 				frames = tex;
@@ -223,9 +255,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				flipX = true;
-
-				iconColor = 'FFb7d855';
+				flipX = true;				
 
 			case 'bf':
 				var tex = Paths.getSparrowAtlas('BOYFRIEND','shared',true);
@@ -256,8 +286,6 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-				iconColor = 'FF31b0d1';
-
 			case 'bf-christmas':
 				var tex = Paths.getSparrowAtlas('bfChristmas','shared',true);
 				frames = tex;
@@ -276,9 +304,8 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				flipX = true;
+				flipX = true;			
 
-				iconColor = 'FF31b0d1';
 			case 'bf-car':
 				var tex = Paths.getSparrowAtlas('bfCar','shared',true);
 				frames = tex;
@@ -295,9 +322,8 @@ class Character extends FlxSprite
 				loadOffsetFile(curCharacter);
 				playAnim('idle');
 
-				flipX = true;
+				flipX = true;				
 
-				iconColor = 'FF31b0d1';
 			case 'bf-pixel':
 				frames = Paths.getSparrowAtlas('bfPixel','shared',true);
 				animation.addByPrefix('idle', 'BF IDLE', 24, false);
@@ -322,9 +348,8 @@ class Character extends FlxSprite
 
 				antialiasing = false;
 
-				flipX = true;
+				flipX = true;				
 
-				iconColor = 'FF7bd6f6';
 			case 'bf-pixel-dead':
 				frames = Paths.getSparrowAtlas('bfPixelsDEAD','shared',true);
 				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
@@ -358,7 +383,6 @@ class Character extends FlxSprite
 
 				antialiasing = false;
 
-				iconColor = 'FFffaa6f';
 			case 'senpai-angry':
 				frames = Paths.getSparrowAtlas('senpai','shared',true);
 				animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
@@ -374,8 +398,6 @@ class Character extends FlxSprite
 				updateHitbox();
 
 				antialiasing = false;
-
-				iconColor = 'FFffaa6f';
 
 			case 'spirit':
 				frames = Paths.getPackerAtlas('spirit','shared',true);
@@ -394,8 +416,6 @@ class Character extends FlxSprite
 
 				antialiasing = false;
 
-				iconColor = 'FFff3c6e';
-
 			case 'parents-christmas':
 				frames = Paths.getSparrowAtlas('mom_dad_christmas_assets','shared',true);
 				animation.addByPrefix('idle', 'Parent Christmas Idle', 24, false);
@@ -412,89 +432,85 @@ class Character extends FlxSprite
 
 				loadOffsetFile(curCharacter);
 
-				playAnim('idle');
+				playAnim('idle');			
 
-				iconColor = 'FFc555d7';
+			//ITS VERY IMPORTANT TO ADD A FALSE WHEN SETTING THE LOOPED BOOL, BECAUSE IF 
+			//YOU DONT THEN THE IDLE WILL BE WEIRD
 			case 'sarvente':
 				// sarvente more like holy ice cream
 				tex = Paths.getSparrowAtlas('characters/sarvente_sheet', 'shared');
 				frames = tex;
-				animation.addByPrefix('idle', 'SarventeIdle', 24);
-				animation.addByPrefix('singUP', 'SarventeUp', 24);
-				animation.addByPrefix('singRIGHT', 'SarventeRight', 24);
-				animation.addByPrefix('singDOWN', 'SarventeDown', 24);
-				animation.addByPrefix('singLEFT', 'SarventeLeft', 24);
-				animation.addByPrefix('hey', 'SarventeHey', 24);
+				animation.addByPrefix('idle', 'SarventeIdle', 24, false);
+				animation.addByPrefix('singUP', 'SarventeUp', 24, false);
+				animation.addByPrefix('singRIGHT', 'SarventeRight', 24, false);
+				animation.addByPrefix('singDOWN', 'SarventeDown', 24, false);
+				animation.addByPrefix('singLEFT', 'SarventeLeft', 24, false);
+				animation.addByPrefix('hey', 'SarventeHey', 24, false);
 	
 				addOffset('idle');
-				addOffset("singUP", -46, 0);
-				addOffset("singRIGHT", 0, 6);
-				addOffset("singLEFT", -10, 5);
-				addOffset("singDOWN", 0, 3);
-				addOffset("hey", 7, 4);
+				addOffset("singUP", -54, 4);
+				addOffset("singRIGHT", -21, -36);
+				addOffset("singLEFT", 11, -32);
+				addOffset("singDOWN", -20, -53);
+				addOffset("hey", 23, -30);
 	
 				playAnim('idle');
 	
-				iconColor = 'FFf691c5';
+				
 	
 			case 'sarvente-dark':
 				tex = Paths.getSparrowAtlas('characters/sarvente_dark', 'shared');
 				frames = tex;
-				animation.addByPrefix('idle', 'SarvDarkIdle', 24);
-				animation.addByPrefix('singUP', 'SarvDarkUp', 24);
-				animation.addByPrefix('singRIGHT', 'SarvDarkRight', 24);
-				animation.addByPrefix('singDOWN', 'SarvDarkDown', 24);
-				animation.addByPrefix('singLEFT', 'SarvDarkLeft', 24);
+				animation.addByPrefix('idle', 'SarvDarkIdle', 24, false);
+				animation.addByPrefix('singUP', 'SarvDarkUp', 24, false);
+				animation.addByPrefix('singRIGHT', 'SarvDarkRight', 24, false);
+				animation.addByPrefix('singDOWN', 'SarvDarkDown', 24, false);
+				animation.addByPrefix('singLEFT', 'SarvDarkLeft', 24, false);
+				animation.addByPrefix('singUP-alt', 'SarvDarkUp2', 24, false);
+				animation.addByPrefix('singRIGHT-alt', 'SarvDarkRight2', 24, false);
+				animation.addByPrefix('singDOWN-alt', 'SarvDarkDown2', 24, false);
+				animation.addByPrefix('singLEFT-alt', 'SarvDarkLeft2', 24, false);
 	
 				addOffset('idle');
 				addOffset("singUP", -46, 0);
 				addOffset("singRIGHT", 0, 2);
 				addOffset("singLEFT", -10, 3);
 				addOffset("singDOWN", 0, 1);
-	
-				animation.addByPrefix('singUP-alt', 'SarvDarkUp2', 24);
-				animation.addByPrefix('singRIGHT-alt', 'SarvDarkRight2', 24);
-				animation.addByPrefix('singDOWN-alt', 'SarvDarkDown2', 24);
-				animation.addByPrefix('singLEFT-alt', 'SarvDarkLeft2', 24);
-	 
 				addOffset("singUP-alt", -46, 3);
 				addOffset("singRIGHT-alt", 0, 0);
 				addOffset("singLEFT-alt", -10, 3);
 				addOffset("singDOWN-alt", 0, 2);
 	
-				playAnim('idle');
-	
-				iconColor = 'FFff60b2';
+				playAnim('idle');			
 	
 			case 'ruv':
 				// loud russian man
 				tex = Paths.getSparrowAtlas('characters/ruv_sheet', 'shared');
 				frames = tex;
-				animation.addByPrefix('idle', 'RuvIdle', 24);
-				animation.addByPrefix('singUP', 'RuvUp', 24);
-				animation.addByPrefix('singRIGHT', 'RuvRight', 24);
-				animation.addByPrefix('singDOWN', 'RuvDown', 24);
-				animation.addByPrefix('singLEFT', 'RuvLeft', 24);
-	
+				animation.addByPrefix('idle', 'RuvIdle', 24, false);
+				animation.addByPrefix('singUP', 'RuvUp', 24, false);
+				animation.addByPrefix('singRIGHT', 'RuvRight', 24, false);
+				animation.addByPrefix('singDOWN', 'RuvDown', 24, false);
+				animation.addByPrefix('singLEFT', 'RuvLeft', 24, false);
+
 				addOffset('idle');
 				addOffset("singUP", -46, 2);
 				addOffset("singRIGHT", 0, 6);
 				addOffset("singLEFT", 23, -62);
 				addOffset("singDOWN", 0, 5);
-	
-				playAnim('idle');
-	
-				iconColor = 'FF978aa6';
-	
+				
+				
+				playAnim('idle');							
+
 			case 'sarvente-lucifer':
-				// smokin hot demon babe
+				// hot demon babe :flushed:
 				tex = Paths.getSparrowAtlas('characters/smokinhotbabe', 'shared');
 				frames = tex;
-				animation.addByPrefix('idle', 'LuciferSarvIdle', 24);
-				animation.addByPrefix('singUP', 'LuciferSarvUp', 24);
-				animation.addByPrefix('singRIGHT', 'LuciferSarvRight', 24);
-				animation.addByPrefix('singDOWN', 'LuciferSarvDown', 24);
-				animation.addByPrefix('singLEFT', 'LuciferSarvLeft', 24);
+				animation.addByPrefix('idle', 'LuciferSarvIdle', 24, false);
+				animation.addByPrefix('singUP', 'LuciferSarvUp', 24, false);
+				animation.addByPrefix('singRIGHT', 'LuciferSarvRight', 24, false);
+				animation.addByPrefix('singDOWN', 'LuciferSarvDown', 24, false);
+				animation.addByPrefix('singLEFT', 'LuciferSarvLeft', 24, false);
 	
 				addOffset('idle');
 				addOffset("singUP", -46, 19);
@@ -502,31 +518,71 @@ class Character extends FlxSprite
 				addOffset("singLEFT", -10, 43);
 				addOffset("singDOWN", 0, 62);
 	
-				playAnim('idle');
-	
-				iconColor = 'FFda317d';
+				playAnim('idle');				
 	
 			case 'selever':
 				// loud bitch
 				tex = Paths.getSparrowAtlas('characters/fuckboi_sheet', 'shared');
 				frames = tex;
-				animation.addByPrefix('idle', 'fuckboi idle', 24);
-				animation.addByPrefix('singUP', 'fuckboi singUP', 24);
-				animation.addByPrefix('singRIGHT', 'fuckboi singRIGHT', 24);
-				animation.addByPrefix('singDOWN', 'fuckboi singDOWN', 24);
-				animation.addByPrefix('singLEFT', 'fuckboi singLEFT', 24);
-				animation.addByPrefix('hey', 'fuckboi hey', 24);
+				animation.addByPrefix('idle', 'Selever Idle', 24, false);
+				animation.addByPrefix('singUP', 'Selever Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Selever Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Selever Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Selever Left', 24, false);
+				animation.addByPrefix('hey', 'Selever Hey', 24, false);
 	
 				addOffset('idle');
-				addOffset("singUP", -6, 48);
-				addOffset("singRIGHT", 20, 2);
-				addOffset("singLEFT", -35, 4);
-				addOffset("singDOWN", 0, 1);
-				addOffset("hey", -14, 3);
+				addOffset("singUP", -117, 0);
+				addOffset("singRIGHT", -20, 2);
+				addOffset("singLEFT", -35, 1);
+				addOffset("singDOWN", -40, 1);
+				addOffset("hey", -14, -2);
 	
 				playAnim('idle');
-				
-				iconColor = 'FF972651';
+								
+			default:
+				tex = Paths.getSparrowAtlas('DADDY_DEAREST','shared',true);
+				frames = tex;
+				animation.addByPrefix('idle', 'Dad idle dance', 24, false);
+				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
+				animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
+				animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false);
+
+				curCharacter = 'dad';
+
+				loadOffsetFile('dad', 'shared');
+
+				playAnim('idle');
+		}
+
+		/*if (tex == null)
+		{
+			// making it default so game doesnt crash if your character doesnt load??
+			tex = Paths.getSparrowAtlas('DADDY_DEAREST','shared',true);
+			frames = tex;
+			animation.addByPrefix('idle', 'Dad idle dance', 24, false);
+			animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
+			animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
+			animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
+			animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false);
+
+			curCharacter = 'dad';
+
+			loadOffsetFile('dad', 'shared');
+
+			playAnim('idle');
+		}*/
+
+
+		var colorSheet:Array<String> = CoolUtil.coolTextFile(Paths.txt('images/characters/iconColor', 'shared'));		
+		for (data in colorSheet)
+		{	//each line
+			var colorData:Array<String> = data.split(':');
+			
+			//checks if the name matches the character
+			if(colorData[0] == curCharacter)
+				iconColor = colorData[1];
 		}
 
 		dance();
@@ -563,6 +619,18 @@ class Character extends FlxSprite
 			var data:Array<String> = offset[i].split(' ');
 			addOffset(data[0], Std.parseInt(data[1]), Std.parseInt(data[2]));
 		}
+
+		/*#if sys
+		if(!FileSystem.exists('assets/shared/images/characters/${character}Offsets')){
+			//in case the offsets are null, load dad offsets :D
+			offset = CoolUtil.coolTextFile(Paths.txt('images/characters/dadOffsets', 'shared'));
+			for (i in 0...offset.length)
+			{
+				var data:Array<String> = offset[i].split(' ');
+				addOffset(data[0], Std.parseInt(data[1]), Std.parseInt(data[2]));
+			}
+		}
+		#end*/
 	}
 
 	override function update(elapsed:Float)
@@ -576,8 +644,8 @@ class Character extends FlxSprite
 
 			var dadVar:Float = 4;
 
-			if (curCharacter == 'dad')
-				dadVar = 6.1;
+			if (curCharacter == 'dad') dadVar = 6.1;
+
 			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
 			{
 				trace('dance');
@@ -594,6 +662,9 @@ class Character extends FlxSprite
 		}
 
 		super.update(elapsed);
+
+		if(holding && !curCharacter.endsWith("-car"))
+			animation.curAnim.curFrame = 0;
 	}
 
 	private var danced:Bool = false;
@@ -605,6 +676,7 @@ class Character extends FlxSprite
 	{
 		if (!debugMode)
 		{
+			holding = false;
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-christmas' | 'gf-car' | 'gf-pixel':
@@ -633,6 +705,17 @@ class Character extends FlxSprite
 		}
 	}
 
+	/**
+	 * Plays an existing animation (e.g. `"run"`).
+	 * If you call an animation that is already playing, it will be ignored.
+	 * (This is also basically a copy of animation.play but with alt animations included)
+	 *
+	 * @param   AnimName   The string name of the animation you want to play.
+	 * @param   Force      Whether to force the animation to restart.
+	 * @param   Reversed   Whether to play animation backwards or not.
+	 * @param   Frame      The frame number in the animation you want to start from.
+	 *                     If a negative value is passed, a random frame is used.
+	 */
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
 

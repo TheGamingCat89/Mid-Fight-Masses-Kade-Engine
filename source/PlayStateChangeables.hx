@@ -7,4 +7,6 @@ class PlayStateChangeables
     public static var Optimize:Bool;
     public static var zoom:Float;
     public static var crossFadeOpt:Bool;
+    public static var noteSplashOpt:Bool;
+    public static var extraEffects:Bool;
 }

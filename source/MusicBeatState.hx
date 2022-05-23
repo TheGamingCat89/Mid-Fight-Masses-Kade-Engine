@@ -122,7 +122,7 @@ class MusicBeatState extends FlxUIState
 					}
 					else if (ste < curStep)
 					{
-						trace("reset steps for some reason?? at " + Conductor.songPosition);
+						//trace("reset steps for some reason?? at " + Conductor.songPosition);
 						//Song reset?
 						curStep = ste;
 						updateBeat();
@@ -148,7 +148,7 @@ class MusicBeatState extends FlxUIState
 					else if (nextStep < curStep)
 					{
 						//Song reset?
-						trace("(no bpm change) reset steps for some reason?? at " + Conductor.songPosition);
+						//trace("(no bpm change) reset steps for some reason?? at " + Conductor.songPosition);
 						curStep = nextStep;
 						updateBeat();
 						stepHit();
@@ -200,17 +200,29 @@ class MusicBeatState extends FlxUIState
 		return lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
+	/**
+	 * A function that will execute every time a step hits 
+	 * (Every Beat equals to 4 Steps).
+	 */
 	public function stepHit():Void
 	{
 		if (curStep % 4 == 0)
 			beatHit();
 	}
 
+	/**
+	 * A function that will execute every time a beat hits. 
+	 * This depends on the BPM of the song.
+	 */
 	public function beatHit():Void
 	{
 		//do literally nothing dumbass
 	}
 	
+	/**
+	 * Opens a web page, by default a new tab or window. If the URL does not already start with "http://" or "https://", it gets added automatically.
+	 * @param schmancy The address of the web page.
+	 */
 	public function fancyOpenURL(schmancy:String)
 	{
 		#if linux
@@ -218,5 +230,5 @@ class MusicBeatState extends FlxUIState
 		#else
 		FlxG.openURL(schmancy);
 		#end
-	}
+	}	
 }

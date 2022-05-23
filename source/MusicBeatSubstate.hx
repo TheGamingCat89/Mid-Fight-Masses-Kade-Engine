@@ -71,12 +71,20 @@ class MusicBeatSubstate extends FlxSubState
 		return lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
+	/**
+	 * A function that will execute every time a step hits 
+	 * (Every Beat equals to 4 Steps).
+	 */
 	public function stepHit():Void
 	{
 		if (curStep % 4 == 0)
 			beatHit();
 	}
 
+	/**
+	 * A function that will execute every time a beat hits. 
+	 * This depends on the BPM of the song.
+	 */
 	public function beatHit():Void
 	{
 		//do literally nothing dumbass

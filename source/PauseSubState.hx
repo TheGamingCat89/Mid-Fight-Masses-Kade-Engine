@@ -17,22 +17,40 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 
 class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	public static var goToOptions:Bool = false;
+	public static var goBack:Bool = false;
+
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit to menu'];
+	var difficulties:Array<String> = ['Easy', 'Normal', 'Hard', 'Alt'];
 	var curSelected:Int = 0;
+
+	public static var playingPause:Bool = false;
 
 	var pauseMusic:FlxSound;
 	var perSongOffset:FlxText;
 	
 	var offsetChanged:Bool = false;
+	var difficultyMenu:Bool = false;
+
+	var confirmButtonEnabled = true;
 
 	public function new(x:Float, y:Float)
 	{
 		super();
+
+		if(FlxG.gamepads.lastActive != null) {
+			confirmButtonEnabled = false;
+
+			new FlxTimer().start(0.5, (timer:FlxTimer) -> {
+				confirmButtonEnabled = true;
+			});
+		}
 
 		if (PlayState.instance.useVideo)
 		{
@@ -205,58 +223,94 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		#end
 
-		if (controls.ACCEPT && !FlxG.keys.pressed.ALT)
+		if (controls.ACCEPT && !FlxG.keys.pressed.ALT && confirmButtonEnabled)
 		{
-			var daSelected:String = menuItems[curSelected];
-
-			
-			switch (daSelected)
-			{
-				case "Resume":
-					close();
-				case "Restart Song":
-					PlayState.startTime = 0;
-					if (PlayState.instance.useVideo)
+			if (difficultyMenu)
+				{
+					if (PlayState.SONG.song == "Gospel" || PlayState.SONG.song == "Casanova")
 					{
-						GlobalVideo.get().stop();
-						PlayState.instance.remove(PlayState.instance.videoSprite);
-						PlayState.instance.removedVideo = true;
+						PlayState.SONG = Song.loadFromJson(Highscore.formatSong(StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase(), 3), PlayState.SONG.song);
+						PlayState.storyDifficulty = curSelected;
 					}
-					PlayState.instance.clean();
-					FlxG.resetState();
-				case "Exit to menu":
-					PlayState.startTime = 0;
-					if (PlayState.instance.useVideo)
-					{
-						GlobalVideo.get().stop();
-						PlayState.instance.remove(PlayState.instance.videoSprite);
-						PlayState.instance.removedVideo = true;
-					}
-					if(PlayState.loadRep)
-					{
-						FlxG.save.data.botplay = false;
-						FlxG.save.data.scrollSpeed = 1;
-						FlxG.save.data.downscroll = false;
-					}
-					PlayState.loadRep = false;
-					#if windows
-					if (PlayState.luaModchart != null)
-					{
-						PlayState.luaModchart.die();
-						PlayState.luaModchart = null;
-					}
-					#end
-					if (FlxG.save.data.fpsCap > 290)
-						(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
-					
-					PlayState.instance.clean();
-
-					if (PlayState.isStoryMode)
-						FlxG.switchState(new StoryMenuState());
 					else
-						FlxG.switchState(new FreeplayState());
+					{
+						PlayState.SONG = Song.loadFromJson(Highscore.formatSong(StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase(), curSelected), PlayState.SONG.song);
+						PlayState.storyDifficulty = curSelected;
+					}
+					FlxG.resetState();
+				}
+			else
+				{		
+			    switch (menuItems[curSelected])
+			    {
+			    	case "Resume":
+			    		close();
+						pauseMusic.stop();
+			    	case "Restart Song":
+			    		PlayState.startTime = 0;
+			    		if (PlayState.instance.useVideo)
+			    		{
+			    			GlobalVideo.get().stop();
+			    			PlayState.instance.remove(PlayState.instance.videoSprite);
+			    			PlayState.instance.removedVideo = true;
+			    		}
+			    		PlayState.instance.clean();
+			    		FlxG.resetState();
+					case "Change Difficulty":
+						switchMenu();
+					case "Options":
+						goToOptions = true;
+						//close();	
+						//idfk what they did here but it doesnt work????
+						FlxG.switchState(new OptionsMenu());		
+			    	case "Exit to menu":
+			    		PlayState.startTime = 0;
+			    		if (PlayState.instance.useVideo)
+			    		{
+			    			GlobalVideo.get().stop();
+			    			PlayState.instance.remove(PlayState.instance.videoSprite);
+			    			PlayState.instance.removedVideo = true;
+			    		}
+			    		if(PlayState.loadRep)
+			    		{
+			    			FlxG.save.data.botplay = false;
+			    			FlxG.save.data.scrollSpeed = 1;
+			    			FlxG.save.data.downscroll = false;
+			    		}
+			    		PlayState.loadRep = false;
+			    		#if windows
+			    		if (PlayState.luaModchart != null)
+			    		{
+			    			PlayState.luaModchart.die();
+			    			PlayState.luaModchart = null;
+			    		}
+			    		#end
+			    		if (FlxG.save.data.fpsCap > 290)
+			    			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
+			    		
+			    		PlayState.instance.clean();
+    
+			    		if (PlayState.isStoryMode)
+			    			FlxG.switchState(new StoryMenuState());
+			    		else
+			    			FlxG.switchState(new FreeplayState());
+			    }
 			}
 		}
+
+		if (controls.BACK)
+			{
+				// Go back to pause options
+				if (difficultyMenu)
+				{
+					switchMenu();
+				}
+				// Resume the game
+				else if (!offsetChanged)
+				{
+					close();
+				}
+			}
 
 		if (FlxG.keys.justPressed.J)
 		{
@@ -267,7 +321,11 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function destroy()
 	{
-		pauseMusic.destroy();
+		if (!goToOptions)
+			{
+				pauseMusic.destroy();
+				playingPause = false;
+			}
 
 		super.destroy();
 	}
@@ -300,4 +358,44 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		}
 	}
+
+	function switchMenu()
+		{
+			// Bring it back to the first in the index and toggle the flag
+			curSelected = 0;
+			difficultyMenu = !difficultyMenu;
+	
+			// Rename the settings
+			if (difficultyMenu)
+			{
+				if (PlayState.SONG.song == "Gospel" || PlayState.SONG.song == "Casanova")
+					menuItems = ['Hard', 'Alt'];
+				else
+					menuItems = ['Easy', 'Normal', 'Hard', 'Alt'];
+			}
+			else
+			{
+				if (offsetChanged)
+				{
+					menuItems = ['Restart Song', 'Change Difficulty', 'Exit to menu'];
+				}
+				else
+				{
+					menuItems = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+				}
+			}
+	
+			// Clear and recreate the objects
+			grpMenuShit.clear();
+			for (i in 0...menuItems.length)
+			{
+				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
+				songText.isMenuItem = true;
+				songText.targetY = i;
+				grpMenuShit.add(songText);
+			}
+	
+			// Update positions
+			changeSelection();
+		}
 }

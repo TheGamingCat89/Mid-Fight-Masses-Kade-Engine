@@ -1,4 +1,83 @@
 #if sys
+import flixel.graphics.FlxGraphic;
+#if cpp
+import Sys;
+import sys.FileSystem;
+import sys.thread.Thread;
+#end
+import flixel.FlxG;
+import flixel.text.FlxText;
+import flixel.FlxSprite;
+
+using StringTools;
+
+class Caching extends MusicBeatState
+{
+	var text:FlxText;
+
+	var logo:FlxSprite;
+
+	override function create() 
+	{
+
+		FlxG.save.bind('funkin', 'ninjamuffin99');
+
+		PlayerSettings.init();
+
+		Data.initSave();
+
+		FlxG.mouse.visible = false;
+
+		FlxG.worldBounds.set(0,0);
+
+		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300,0,"Loading...");
+		text.size = 34;
+		text.alignment = FlxTextAlign.CENTER;
+		
+		text.x -= 170;
+
+		logo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('MidFightLogo'));
+		logo.x -= logo.width / 2;
+		logo.y -= logo.height / 2 + 100;
+		logo.setGraphicSize(Std.int(logo.width * 0.6));
+
+		text.y -= logo.height / 2 - 125;
+		
+		if(FlxG.save.data.antialiasing != null)
+			logo.antialiasing = FlxG.save.data.antialiasing;
+		else
+			logo.antialiasing = true;
+
+		add(text);
+		add(logo);
+
+		#if cpp
+		sys.thread.Thread.create(() -> {
+			preload();
+		});
+		#else
+		LoadingState.loadAndSwitchState(new TitleState());
+		#end
+	}
+
+	public function preload()
+	{
+		FlxGraphic.defaultPersist = true;
+
+		for(file in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters")))
+		{
+			if(Std.isOfType(file, FlxGraphic)){
+			 trace('caching: ${file}');
+			 FlxG.bitmap.add(Paths.image(file, 'shared'));
+			}
+		}
+
+		LoadingState.loadAndSwitchState(new TitleState());
+	}
+}
+#end
+
+/*#if sys
 package;
 
 import lime.app.Application;
@@ -38,7 +117,7 @@ class Caching extends MusicBeatState
 	var loaded = false;
 
 	var text:FlxText;
-	var kadeLogo:FlxSprite;
+	var logo:FlxSprite;
 
 	public static var bitmapData:Map<String,FlxGraphic>;
 
@@ -67,18 +146,18 @@ class Caching extends MusicBeatState
 		text.alignment = FlxTextAlign.CENTER;
 		text.alpha = 0;
 
-		kadeLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('KadeEngineLogo'));
-		kadeLogo.x -= kadeLogo.width / 2;
-		kadeLogo.y -= kadeLogo.height / 2 + 100;
-		text.y -= kadeLogo.height / 2 - 125;
+		logo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('MidFightLogo'));
+		logo.x -= logo.width / 2;
+		logo.y -= logo.height / 2 + 100;
+		text.y -= logo.height / 2 - 125;
 		text.x -= 170;
-		kadeLogo.setGraphicSize(Std.int(kadeLogo.width * 0.6));
+		logo.setGraphicSize(Std.int(logo.width * 0.6));
 		if(FlxG.save.data.antialiasing != null)
-			kadeLogo.antialiasing = FlxG.save.data.antialiasing;
+			logo.antialiasing = FlxG.save.data.antialiasing;
 		else
-			kadeLogo.antialiasing = true;
+			logo.antialiasing = true;
 		
-		kadeLogo.alpha = 0;
+		logo.alpha = 0;
 
 		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
 
@@ -87,11 +166,13 @@ class Caching extends MusicBeatState
 		{
 			trace("caching images...");
 
+			var w = 0;
 			for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters")))
 			{
 				if (!i.endsWith(".png"))
 					continue;
-				images.push(i);
+				FlxG.bitmap.add(Paths.image(i, 'shared'));
+				w++;
 			}
 		}
 
@@ -99,18 +180,18 @@ class Caching extends MusicBeatState
 
 		for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/songs")))
 		{
-			music.push(i);
+			//FlxG.bitmap.add(Paths.image(i, 'songs'));
 		}
 		#end
 
 		toBeDone = Lambda.count(images) + Lambda.count(music);
 
-		var bar = new FlxBar(10,FlxG.height - 50,FlxBarFillDirection.LEFT_TO_RIGHT,FlxG.width,40,null,"done",0,toBeDone);
-		bar.color = FlxColor.PURPLE;
+		//var bar = new FlxBar(10,FlxG.height - 50,FlxBarFillDirection.LEFT_TO_RIGHT,FlxG.width,40,null,"done",0,toBeDone);
+		//bar.color = FlxColor.PURPLE;
 
-		add(bar);
+		//add(bar);
 
-		add(kadeLogo);
+		add(logo);
 		add(text);
 
 		trace('starting caching..');
@@ -124,7 +205,7 @@ class Caching extends MusicBeatState
 				if (toBeDone != 0 && done != toBeDone)
 					{
 						var alpha = HelperFunctions.truncateFloat(done / toBeDone * 100,2) / 100;
-						kadeLogo.alpha = alpha;
+						logo.alpha = alpha;
 						text.alpha = alpha;
 						text.text = "Loading... (" + done + "/" + toBeDone + ")";
 					}
@@ -154,11 +235,11 @@ class Caching extends MusicBeatState
 	{
 		trace("LOADING: " + toBeDone + " OBJECTS.");
 
-		for (i in images)
+		for (image in images)
 		{
-			var replaced = i.replace(".png","");
-			var data:BitmapData = BitmapData.fromFile("assets/shared/images/characters/" + i);
-			trace('id ' + replaced + ' file - assets/shared/images/characters/' + i + ' ${data.width}');
+			var replaced = image.replace(".png","");
+			var data:BitmapData = BitmapData.fromFile("assets/shared/images/characters/" + image);
+			trace('id ' + replaced + ' file - assets/shared/images/characters/' + image + ' ${data.width}');
 			var graph = FlxGraphic.fromBitmapData(data);
 			graph.persist = true;
 			graph.destroyOnNoUse = false;
@@ -166,11 +247,11 @@ class Caching extends MusicBeatState
 			done++;
 		}
 
-		for (i in music)
+		for (file in music)
 		{
-			FlxG.sound.cache(Paths.inst(i));
-			FlxG.sound.cache(Paths.voices(i));
-			trace("cached " + i);
+			FlxG.sound.cache(Paths.inst(file));
+			FlxG.sound.cache(Paths.voices(file));
+			trace("cached " + file);
 			done++;
 		}
 
@@ -185,4 +266,4 @@ class Caching extends MusicBeatState
 	}
 
 }
-#end
+#end*/

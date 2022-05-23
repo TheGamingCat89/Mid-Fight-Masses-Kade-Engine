@@ -28,12 +28,13 @@ class OptionsMenu extends MusicBeatState
 		new OptionCategory("Gameplay", [
 			new DFJKOption(controls),
 			new DownscrollOption("Toggle making the notes scroll down rather than up."),
+			new MiddleScrollOption("Put your lane in the center or on the right."),
+			new LaneUnderlayOption("How transparent your lane is, higher = more visible."),
 			new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),
 			new Judgement("Customize your Hit Timings. (LEFT or RIGHT)"),
-			#if desktop
-			new FPSCapOption("Change your FPS Cap."),
-			#end
+			#if desktop new FPSCapOption("Change your FPS Cap."), #end
 			new ScrollSpeedOption("Change your scroll speed. (1 = Chart dependent)"),
+			new HealthBarOption("Toggle the health bar."),
 			new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
 			new ResetButtonOption("Toggle pressing R to gameover."),
 			new InstantRespawn("Toggle if you instantly respawn after dying."),
@@ -41,40 +42,44 @@ class OptionsMenu extends MusicBeatState
 			new CustomizeGameplay("Drag and drop gameplay modules to your prefered positions!")
 		]),
 		new OptionCategory("Appearance", [
-			new EditorRes("Not showing the editor grid will greatly increase editor performance"),
 			new DistractionsAndEffectsOption("Toggle stage distractions that can hinder your gameplay."),
 			new CamZoomOption("Toggle the camera zoom in-game."),
 			new StepManiaOption("Sets the colors of the arrows depending on quantization instead of direction."),
 			new AccuracyOption("Display accuracy information on the info bar."),
+			new ScoreText("Display the score bar."),
 			new SongPositionOption("Show the song's current position as a scrolling bar."),
 			new NPSDisplayOption("Shows your current Notes Per Second on the info bar."),
+			new PopUpScoreOption("Displays your rating, combo, and ms every time you hit a note."),
 			new RainbowFPSOption("Make the FPS Counter flicker through rainbow colors."),
+			new NoteSplashOption("Toggle Note Splashes when you hit a note."),
 			new CpuStrums("Toggle the CPU's strumline lighting up when it hits a note."),
 		]),
-		
+		new OptionCategory("CrossFade", [				
+			new CrossFadeOpt("Toggle CrossFade."),
+			new ColorToggle("Toggle between your custom color and the original color."),
+			new ColorOptionR("Choose Boyfriend's CrossFade color. (RED)"),
+			new ColorOptionG("Choose Boyfriend's CrossFade color. (GREEN)"),
+			new ColorOptionB("Choose Boyfriend's CrossFade color. (BLUE)"),
+			new VelocityOption("Choose the speed at which the CrossFade goes."),
+			new TimeAlpha("Choose the time that will take transparency to reach 0."),
+			new StartingAlpha("Starting Alpha for the CrossFade.")
+		]),		
 		new OptionCategory("Misc", [
 			new FPSOption("Toggle the FPS Counter"),
 			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
-			new WatermarkOption("Enable and disable all watermarks from the engine."),
 			new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
 			new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
 			new ScoreScreen("Show the score screen after the end of a song"),
 			new ShowInput("Display every single input on the score screen."),
 			new Optimization("No characters or backgrounds. Just a usual rhythm game layout."),
-			new CrossFadeOpt("Toggle CrossFade."),
-			new GraphicLoading("On startup, cache every character. Significantly decrease load times. (HIGH MEMORY)"),
 			new BotPlay("Showcase your charts and mods with autoplay.")
-		]),
-		
+		]),	
 		new OptionCategory("Saves and Data", [
-			#if desktop
-			new ReplayOption("View saved song replays."),
-			#end
+			#if desktop new ReplayOption("View saved song replays."), #end
 			new ResetScoreOption("Reset your score on all songs and weeks. This is irreversible!"),
 			new LockWeeksOption("Reset your story mode progress. This is irreversible!"),
 			new ResetSettings("Reset ALL your settings. This is irreversible!")
-		])
-		
+		])		
 	];
 
 	public var acceptInput:Bool = true;

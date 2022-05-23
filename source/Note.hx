@@ -29,15 +29,19 @@ class Note extends FlxSprite
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
+	public var holdParent:Bool = false;
 	public var modifiedByLua:Bool = false;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
-	public var doubleNote:Bool = false;
+	public var isChord:Bool = false;
 	public var originColor:Int = 0; // The sustain note's original note's color
 	public var noteSection:Int = 0;
 	public var noteType:String = 'normal';
+	public var noteStyle:Int = 0;
 
 	public var isAlt:Bool = false;
+
+	public var section:Int = 0;
 
 	public var noteCharterObject:FlxSprite;
 
@@ -55,6 +59,7 @@ class Note extends FlxSprite
 
 	public var modAngle:Float = 0; // The angle set by modcharts
 	public var localAngle:Float = 0; // The angle to be edited inside Note.hx
+	public var originAngle:Float = 0; //  The angle the OG note of the sus note had (?) bitch wtf does that mean
 
 	public var dataColor:Array<String> = ['purple', 'blue', 'green', 'red'];
 	public var quantityColor:Array<Int> = [RED_NOTE, 2, BLUE_NOTE, 2, PURP_NOTE, 2, BLUE_NOTE, 2];
@@ -81,7 +86,7 @@ class Note extends FlxSprite
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 
-		x += 50;
+		x += 100;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
 
@@ -156,7 +161,20 @@ class Note extends FlxSprite
 					setGraphicSize(widthSize);
 					updateHitbox();
 				case 'church':
-					frames = Paths.getSparrowAtlas('church3/NOTE_assets2');
+
+					var daPath:String = 'NOTE_assets';
+					switch(noteType)
+				    { 
+					    case 'holy':
+					    	daPath = "HOLYlmao";
+					    case 'unholy':
+					    	daPath = "unHOLYlmao";
+					    default:
+					    	daPath = 'church3/NOTE_assets2';
+				    }
+
+					frames = Paths.getSparrowAtlas(daPath);
+
 	
 					for (i in 0...4)
 					{
@@ -222,6 +240,7 @@ class Note extends FlxSprite
 			animation.play(dataColor[col] + 'Scroll');
 			localAngle -= arrowAngles[col];
 			localAngle += arrowAngles[noteData];
+			originAngle = localAngle;
 			originColor = col;
 		}
 		
@@ -237,12 +256,16 @@ class Note extends FlxSprite
 
 		if (isSustainNote && prevNote != null)
 		{
+			//nebual
+			prevNote.holdParent = true;
+
 			noteScore * 0.2;
 			alpha = 0.6;
 
 			x += width / 2;
 
 			originColor = prevNote.originColor; 
+			originAngle = prevNote.originAngle;
 
 			animation.play(dataColor[originColor] + 'holdend'); // This works both for normal colors and quantization colors
 			updateHitbox();
@@ -273,15 +296,14 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		angle = modAngle + localAngle;
+		if (!modifiedByLua)
+			angle = modAngle + localAngle;
+		else
+			angle = modAngle;
 
 		if (!modifiedByLua)
-		{
 			if (!sustainActive)
-			{
 				alpha = 0.3;
-			}
-		}
 
 		if (mustPress)
 		{

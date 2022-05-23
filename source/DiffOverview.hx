@@ -66,7 +66,7 @@ class DiffOverview extends FlxSubState
 
         playerStrums = new FlxTypedGroup<FlxSprite>();
 
-		SONG = FreeplayState.songData.get(FreeplayState.songs[FreeplayState.curSelected].songName)[FreeplayState.curDifficulty];
+		SONG = FreeplayState.songData.get(FreeplayState.weeks[FreeplayState.curWeekSelected].songs[FreeplayState.curSongSelected].songName)[FreeplayState.curDifficulty];
 
 		strumLine = new FlxSprite(0, (FlxG.height / 2) - 295).makeGraphic(FlxG.width, 10);
 		strumLine.scrollFactor.set();
@@ -391,7 +391,7 @@ class DiffOverview extends FlxSubState
 	{
 		// FlxG.log.add(ChartParser.parse());
 
-		var songData = FreeplayState.songData.get(FreeplayState.songs[FreeplayState.curSelected].songName)[FreeplayState.curDifficulty];
+		var songData = FreeplayState.songData.get(FreeplayState.weeks[FreeplayState.curWeekSelected].songs[FreeplayState.curSongSelected].songName)[FreeplayState.curDifficulty];
 		Conductor.changeBPM(songData.bpm);
 
 		if (SONG.needsVoices)

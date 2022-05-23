@@ -34,7 +34,7 @@ class StoryMenuState extends MusicBeatState
 			['Satin Panties', "High", "Milf"],
 			['Cocoa', 'Eggnog', 'Winter Horrorland'],
 			['Senpai', 'Roses', 'Thorns'],
-			['Parish', 'Worship', 'Zavodila', 'Gospel'],
+			['Parish', 'Worship', 'Zavodila'],
 		    ['Casanova']
 		];
 	}
@@ -51,7 +51,7 @@ class StoryMenuState extends MusicBeatState
 		['parents-christmas', 'bf', 'gf'],
 		['senpai', 'bf', 'gf'],
 		['sarvente', 'bf', 'gf'],
-		['selever', 'bf', 'gf']
+		['', 'bf', 'gf']
 	];
 
 	var weekNames:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/weekNames'));
@@ -257,6 +257,9 @@ class StoryMenuState extends MusicBeatState
 			lock.y = grpWeekText.members[lock.ID].y;
 		});
 
+		if (curDifficulty <= 1 && curWeek == 8)
+			curDifficulty = 2;
+
 		if (!movedBack)
 		{
 			if (!selectedWeek)
@@ -387,7 +390,6 @@ class StoryMenuState extends MusicBeatState
 			PlayState.goods = 0;
 			PlayState.campaignMisses = 0;
 			PlayState.SONG = Song.conversionChecks(Song.loadFromJson(poop, PlayState.storyPlaylist[0]));
-			PlayState.afterimages = AfterImages.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase()); // shit
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -401,19 +403,19 @@ class StoryMenuState extends MusicBeatState
 	{
 		curDifficulty += change;
 
-		if (curDifficulty < 0)
-			curDifficulty = 3;
-		if (curDifficulty > 3)
-			curDifficulty = 0;
+		if(curWeek != 8){
+		    if (curDifficulty < 0)
+		    	curDifficulty = 3;
 
-		if (curWeek == 8){
+		    if (curDifficulty > 3)
+		    	curDifficulty = 0;
+	    }
+		//this for casanova
+		else {
             if (curDifficulty < 2)
 		    	curDifficulty = 3;
 
 		    if (curDifficulty > 3)
-		    	curDifficulty = 2;
-			
-			if (curDifficulty <= 1)
 		    	curDifficulty = 2;
 		}
 
@@ -454,6 +456,12 @@ class StoryMenuState extends MusicBeatState
 	function changeWeek(change:Int = 0):Void
 	{
 		curWeek += change;
+
+		if (curWeek == 8)
+		{
+			if (curDifficulty < 2)
+				curDifficulty = 2;
+		}
 
 		if (curWeek >= weekData().length)
 			curWeek = 0;

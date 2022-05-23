@@ -25,20 +25,39 @@ class Event
 
 typedef SwagSong =
 {
+	var ?song:String;
+
+	/**
+	 * The readable name of the song, as displayed to the user.
+	 		* Can be any string.
+	 */
+	var songName:String;
+
+	/**
+	 * The internal name of the song, as used in the file system.
+	 */
+	var songId:String;
+
 	var chartVersion:String;
-	var song:String;
 	var notes:Array<SwagSection>;
 	var eventObjects:Array<Event>;
 	var bpm:Float;
 	var needsVoices:Bool;
 	var speed:Float;
-
 	var player1:String;
 	var player2:String;
 	var gfVersion:String;
 	var noteStyle:String;
 	var stage:String;
-	var validScore:Bool;
+	var ?validScore:Bool;
+	var ?offset:Int;
+	@:optional var initialSpeed:Float;
+}
+
+typedef SongMeta =
+{
+	var ?offset:Int;
+	var ?name:String;
 }
 
 class Song
@@ -75,6 +94,11 @@ class Song
 		return parseJSONshit(rawJson);
 	}
 
+	/**
+	 * Load a song with this function
+	 * @param jsonInput Name of the actual json file (include the difficulty if you are using anything that isn't on Normal).
+	 * @param folder Name of the Folder the json file is inside.
+	 */
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
 	{
 		// pre lowercasing the folder name

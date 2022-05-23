@@ -73,14 +73,14 @@ class TitleState extends MusicBeatState
 
 		PlayerSettings.init();
 
-		KadeEngineData.initSave();
+		Data.initSave();
 		
 		#end
-
-
 				
 		Highscore.load();
 
+		if (FlxG.save.data.volume != null) FlxG.sound.volume = FlxG.save.data.volume;
+        if (FlxG.save.data.mute != null) FlxG.sound.muted = FlxG.save.data.mute;
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
@@ -130,24 +130,22 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		if (Main.watermarks) {
-			logoBl = new FlxSprite(-150, 1500);
-			logoBl.frames = Paths.getSparrowAtlas('KadeEngineLogoBumpin');
-		} else {
-			logoBl = new FlxSprite(-150, -100);
-			logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-		}
+		logoBl = new FlxSprite(-150, -100);
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+		
 		logoBl.antialiasing = FlxG.save.data.antialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.updateHitbox();
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
+		gfDance = new FlxSprite(FlxG.width + 1500, FlxG.height - 750);
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = FlxG.save.data.antialiasing;
+		gfDance.setGraphicSize(Std.int(gfDance.width * 0.85));
+		gfDance.updateHitbox();
 		add(gfDance);
 		add(logoBl);
 
@@ -255,7 +253,7 @@ class TitleState extends MusicBeatState
 		{
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
-
+		
 		var pressedEnter:Bool = controls.ACCEPT;
 
 		#if mobile
@@ -290,7 +288,10 @@ class TitleState extends MusicBeatState
 			MainMenuState.firstStart = true;
 			MainMenuState.finishedFunnyMove = false;
 
-			new FlxTimer().start(2, function(tmr:FlxTimer){FlxG.switchState(new MainMenuState());});	
+			new FlxTimer().start(2, function(tmr:FlxTimer)
+			{
+				FlxG.switchState(new MainMenuState());
+			});	
 		}
 
 		if (pressedEnter && !skippedIntro && initialized)
@@ -362,18 +363,10 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
 			case 5:
-				if (Main.watermarks)
-					createCoolText(['Kade Engine', 'by']);
-				else
-					createCoolText(['In Partnership', 'with']);
+				createCoolText(['In Partnership', 'with']);
 			case 7:
-				if (Main.watermarks)
-					addMoreText('KadeDeveloper');
-				else
-				{
-					addMoreText('Newgrounds');
-					ngSpr.visible = true;
-				}
+				addMoreText('Newgrounds');
+				ngSpr.visible = true;				
 			// credTextShit.text += '\nNewgrounds';
 			case 8:
 				deleteCoolText();
@@ -418,17 +411,11 @@ class TitleState extends MusicBeatState
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 
-			FlxTween.tween(logoBl,{y: -100}, 1.4, {ease: FlxEase.expoInOut});
+			FlxTween.tween(logoBl,{x: -150}, 1.4, {ease: FlxEase.expoInOut});
+
+			FlxTween.tween(gfDance, {x: FlxG.width * 0.41}, 1.4, {ease: FlxEase.expoInOut});
 
 			logoBl.angle = -4;
-
-			new FlxTimer().start(0.01, function(tmr:FlxTimer)
-				{
-					if(logoBl.angle == -4) 
-						FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
-					if (logoBl.angle == 4) 
-						FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
-				}, 0);
 
 			skippedIntro = true;
 		}

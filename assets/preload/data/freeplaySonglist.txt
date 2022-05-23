@@ -1,24 +1,9 @@
-Tutorial:gf:1
-Bopeebo:dad:1
-Fresh:dad:1
-Dadbattle:dad:1
-Spookeez:spooky:2
-South:spooky:2
-Monster:monster:2
-Pico:pico:3
-Philly:pico:3
-Blammed:pico:3
-Satin Panties:mom:4
-High:mom:4
-Milf:mom:4
-Cocoa:parents-christmas:5
-Eggnog:parents-christmas:5
-Winter-Horrorland:monster-christmas:5
-Senpai:senpai:6
-Roses:senpai:6
-Thorns:spirit:6
-Parish:sarvente:7
-Worship:sarvente:7
-Zavodila:ruv:7
-Gospel:sarvente-lucifer:7
-Casanova:selever:8
+Tutorial:0/Tutorial=gf:Test=bf-pixel
+Daddy Dearest:1/Bopeebo=dad:Fresh=dad:Dadbattle=dad
+Spooky Month:2/Spookeez=spooky:South=spooky:Monster=Monster
+Pico:3/Pico=pico:Philly=pico:Blammed=Pico
+Mommy Mearest:4/Satin-Panties=mom:High=mom:Milf=mom
+Christmas:5/Cocoa=parents-christmas:Eggnog=parents-christmas:Winter-Horrorland=monster-christmas
+Hating Simulator:6/Senpai=senpai:Roses=senpai:Thorns=spirit
+Mid-Fight Masses:7/Parish=sarvente:Worship=sarvente:Zavodila=ruv:Gospel=sarvente-lucifer
+Selever:8/Casanova=selever

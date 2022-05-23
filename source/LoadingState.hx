@@ -144,6 +144,10 @@ class LoadingState extends MusicBeatState
 		return Paths.voices(PlayState.SONG.song);
 	}
 	
+	/**
+	 * Same as function switchState from FlxG.
+	 * @param target Choose which state to go to next. 
+	 */
 	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
 	{
 		FlxG.switchState(getNextState(target, stopMusic));
