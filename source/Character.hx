@@ -556,25 +556,6 @@ class Character extends FlxSprite
 				playAnim('idle');
 		}
 
-		/*if (tex == null)
-		{
-			// making it default so game doesnt crash if your character doesnt load??
-			tex = Paths.getSparrowAtlas('DADDY_DEAREST','shared',true);
-			frames = tex;
-			animation.addByPrefix('idle', 'Dad idle dance', 24, false);
-			animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
-			animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
-			animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
-			animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false);
-
-			curCharacter = 'dad';
-
-			loadOffsetFile('dad', 'shared');
-
-			playAnim('idle');
-		}*/
-
-
 		var colorSheet:Array<String> = CoolUtil.coolTextFile(Paths.txt('images/characters/iconColor', 'shared'));		
 		for (data in colorSheet)
 		{	//each line

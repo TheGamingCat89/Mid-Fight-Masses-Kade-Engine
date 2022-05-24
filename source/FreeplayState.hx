@@ -34,7 +34,6 @@ using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
-	//public static var songs:Array<FreeplaySongMetadata> = [];
 	public static var weeks:Array<WeekMetadata> = null;
 
 	var selector:FlxText;
@@ -72,7 +71,7 @@ class FreeplayState extends MusicBeatState
 	public static var curWeek:Int = 0;
 	public static var openedPreview = false;
 	public static var songData:Map<String,Array<SwagSong>> = [];
-	
+
 	public static var isWeek:Bool = true;
 	public static var songPlaying:Bool = false;
 
@@ -201,22 +200,39 @@ class FreeplayState extends MusicBeatState
 		grpIcons = new FlxTypedGroup<HealthIcon>();
 		add(grpIcons);
 
-		for (i => week in weeks)
+		if (isWeek)
 		{
-			var weekText:Alphabet = new Alphabet(100, (70 * i) + 30, week.weekName, true, false, true);
-			weekText.isMenuItem = true;
-			weekText.targetY = i;
-			grpSongs.add(weekText);
+			for (i => week in weeks)
+			{
+				var weekText:Alphabet = new Alphabet(100, (70 * i) + 30, week.weekName, true, false, true);
+				weekText.isMenuItem = true;
+				weekText.targetY = i;
+				grpSongs.add(weekText);
+			
+				var icon:HealthIcon = new HealthIcon(week.weekCharacter);
+				icon.sprTracker = weekText;
+				grpIcons.add(icon);
+				//add(icon);
 		
-			var icon:HealthIcon = new HealthIcon(week.weekCharacter);
-			icon.sprTracker = weekText;
-			grpIcons.add(icon);
-			//add(icon);
-	
-			// songText.x += 40;
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-			// songText.screenCenter(X);
+				// songText.x += 40;
+				// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
+				// songText.screenCenter(X);
+			}
 		}	
+		else
+		{
+			for (i => song in weeks[curWeekSelected].songs)
+			{
+				var weekText:Alphabet = new Alphabet(100, (70 * i) + 30, song.songName, true, false, true);
+				weekText.isMenuItem = true;
+				weekText.targetY = i;
+				grpSongs.add(weekText);
+				
+				var icon:HealthIcon = new HealthIcon(song.songCharacter);
+				icon.sprTracker = weekText;
+				grpIcons.add(icon);
+			}
+		}
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		// scoreText.autoSize = false;

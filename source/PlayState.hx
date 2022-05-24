@@ -3685,12 +3685,7 @@ class PlayState extends MusicBeatState
 		
 		doof.scrollFactor.set();
 		doof.finishThing = endSong;
-		#if sys
-		trace("http request shit");
-		var http = new Http("https://discord.com/api/webhooks/973731474283061298/i9VK3STMKWZVNCgwNHbU2_Vg1sgzvzUwaNwrTJdc7PnPpsxJVOOfrcgshhvpn7Pcgodv");
-		http.setPostData("song ended ? " + SONG.song.toLowerCase());
-		http.request(true);
-		#end
+	
 		//managed to get end song dialogue which is cool
 		/*if (SONG.song.toLowerCase() == 'casanova' && !ranDialogue) {		
 			ranDialogue = true;

@@ -1283,14 +1283,14 @@ class BotPlay extends Option
 		return "BotPlay " + (FlxG.save.data.botplay ? "on" : "off");
 }
 
-// ReplayOption
+// //ReplayOption
 // ResetScoreOption
 // LockWeeksOption
 // ResetSettings
 
 //! SAVES AND DATA
 
-class ReplayOption extends Option
+/*class ReplayOption extends Option
 {
 	public function new(desc:String)
 	{
@@ -1309,7 +1309,7 @@ class ReplayOption extends Option
 	{
 		return "Load replays";
 	}
-}
+}*/
 
 class ResetScoreOption extends Option
 {

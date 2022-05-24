@@ -1,4 +1,4 @@
-package;
+/*package;
 
 import FreeplayState.FreeplaySongMetadata;
 import haxe.Exception;
@@ -126,12 +126,6 @@ class LoadReplayState extends MusicBeatState
 		}
         return w;
     }
-
-	//figure out what to do with this shit later !!
-	/*public function addSong(songName:String, songCharacter:String)
-		{
-			songs.push(new FreeplaySongMetadata(songName, songCharacter));
-		}*/
 	
 	public function addWeek(weekName:String, songs:Array<FreeplaySongMetadata>, weekNum:Int)
 	{
@@ -273,4 +267,4 @@ class LoadReplayState extends MusicBeatState
 			}
 		}
 	}
-}
+}*/

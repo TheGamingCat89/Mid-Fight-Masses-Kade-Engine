@@ -75,7 +75,7 @@ class OptionsMenu extends MusicBeatState
 			new BotPlay("Showcase your charts and mods with autoplay.")
 		]),	
 		new OptionCategory("Saves and Data", [
-			#if desktop new ReplayOption("View saved song replays."), #end
+			//#if desktop new ReplayOption("View saved song replays."), #end
 			new ResetScoreOption("Reset your score on all songs and weeks. This is irreversible!"),
 			new LockWeeksOption("Reset your story mode progress. This is irreversible!"),
 			new ResetSettings("Reset ALL your settings. This is irreversible!")
